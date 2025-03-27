@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faith Over All</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 transition-colors duration-300">
+    <div class="w-full max-w-md shadow-2xl rounded-2xl overflow-hidden theme-transition">
+        <div class="p-4 flex justify-end">
+            <button 
+                id="themeToggle" 
+                class="focus:outline-none flex items-center justify-center rounded-full p-2 theme-transition"
+            >
+                <span class="material-icons" id="themeIcon">light_mode</span>
+            </button>
+        </div>
+
+        <div class="theme-header p-6 text-center">
+            <h1 class="text-3xl font-bold theme-title">Faith Over All</h1>
+            <p class="theme-subtitle mt-2">Gere versículos com o tema que desejar.</p>
+        </div>
+
+        <div class="theme-content p-6">
+            <div class="mb-4 relative">
+                <span class="absolute left-3 top-3 theme-icon-color material-icons">search</span>
+                <input 
+                    type="text" 
+                    id="topicInput" 
+                    placeholder="Digite um tópico (ex: amor, fé, esperança)" 
+                    class="w-full p-3 pl-10 theme-input border-2 rounded-lg focus:outline-none focus:ring-2 transition duration-300"
+                >
+            </div>
+            
+            <button 
+                id="generateBtn" 
+                class="w-full theme-button text-white py-3 rounded-lg flex items-center justify-center space-x-2 theme-transition"
+            >
+                <span class="material-icons">auto_stories</span>
+                <span>Gerar Versículo</span>
+            </button>
+            
+            <div 
+                id="verseResult" 
+                class="mt-6 p-5 theme-verse-bg border-l-4 rounded-lg text-center min-h-[150px] flex items-center justify-center relative"
+            >
+                <p id="verseText" class="theme-verse-text italic">
+                    Seu versículo aparecerá aqui
+                </p>
+                <button 
+                    id="copyBtn" 
+                    class="absolute top-2 right-2 theme-copy-icon opacity-0 transition duration-300"
+                >
+                    <span class="material-icons">content_copy</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+        // Tema
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        let isDarkMode = localStorage.getItem('theme') === 'dark';
+
+        function applyTheme() {
+            const body = document.body;
+            const container = document.querySelector('.w-full');
+            
+            if (isDarkMode) {
+                // Tema Escuro
+                body.classList.add('bg-gray-900', 'text-white');
+                body.classList.remove('bg-gradient-to-br', 'from-blue-50', 'to-blue-100');
+                
+                container.classList.add('bg-gray-800');
+                container.classList.remove('bg-white');
+                
+                // Ajustes de cores para elementos específicos
+                document.querySelector('.theme-header').classList.add('bg-gray-700');
+                document.querySelector('.theme-header').classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-indigo-700');
+                
+                document.querySelector('.theme-title').classList.add('text-white');
+                document.querySelector('.theme-subtitle').classList.add('text-gray-300');
+                
+                document.getElementById('topicInput').classList.add('bg-gray-700', 'text-white', 'border-gray-600');
+                document.getElementById('topicInput').classList.remove('border-blue-200');
+                
+                document.getElementById('generateBtn').classList.add('bg-blue-800');
+                document.getElementById('generateBtn').classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-indigo-700');
+                
+                document.getElementById('verseResult').classList.add('bg-gray-700', 'border-blue-800');
+                document.getElementById('verseResult').classList.remove('bg-blue-50', 'border-blue-500');
+                
+                document.getElementById('verseText').classList.add('text-gray-200');
+                document.getElementById('verseText').classList.remove('text-gray-700');
+                
+                themeIcon.textContent = 'dark_mode';
+            } else {
+                // Tema Claro
+                body.classList.remove('bg-gray-900', 'text-white');
+                body.classList.add('bg-gradient-to-br', 'from-blue-50', 'to-blue-100');
+                
+                container.classList.remove('bg-gray-800');
+                container.classList.add('bg-white');
+                
+                document.querySelector('.theme-header').classList.remove('bg-gray-700');
+                document.querySelector('.theme-header').classList.add('bg-gradient-to-r', 'from-blue-600', 'to-indigo-700');
+                
+                document.querySelector('.theme-title').classList.remove('text-white');
+                document.querySelector('.theme-subtitle').classList.remove('text-gray-300');
+                
+                document.getElementById('topicInput').classList.remove('bg-gray-700', 'text-white', 'border-gray-600');
+                document.getElementById('topicInput').classList.add('border-blue-200');
+                
+                document.getElementById('generateBtn').classList.remove('bg-blue-800');
+                document.getElementById('generateBtn').classList.add('bg-gradient-to-r', 'from-blue-600', 'to-indigo-700');
+                
+                document.getElementById('verseResult').classList.remove('bg-gray-700', 'border-blue-800');
+                document.getElementById('verseResult').classList.add('bg-blue-50', 'border-blue-500');
+                
+                document.getElementById('verseText').classList.remove('text-gray-200');
+                document.getElementById('verseText').classList.add('text-gray-700');
+                
+                themeIcon.textContent = 'light_mode';
+            }
+        }
+
+        // Inicializar tema
+        applyTheme();
+
+        // Alternar tema
+        themeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            applyTheme();
+        });
+
+        // Código anterior de geração de versículo (mantido o mesmo)
+        const API_KEY = 'AIzaSyClVK4S1ugtQkWtGoHTnSTVhgtpcL-3Fos'; 
+        const genAI = new GoogleGenerativeAI(API_KEY);
+
+        async function generateBibleVerse(topic) {
+            try {
+                const model = genAI.getGenerativeModel({ 
+                    model: "gemini-1.5-pro-latest"
+                });
+
+                const prompt = `Gere um versículo bíblico autêntico e profundo sobre o tema "${topic}". 
+                Siga estas diretrizes:
+                - O versículo deve ser preciso e respeitoso
+                - Formate como: "[Texto do versículo] - [Referência completa (Livro, Capítulo:Versículo)]"
+                - Capture a essência espiritual do tema
+                - Se não encontrar um versículo direto, sugira um relacionado
+                - Procure sempre versículos diferentes do que já disse anteriormente, se possível.`;
+
+                const result = await model.generateContent(prompt);
+                return result.response.text();
+            } catch (error) {
+                console.error("Erro detalhado:", error);
+                return `Erro ao gerar versículo: ${error.message}`;
+            }
+        }
+
+        document.getElementById('generateBtn').addEventListener('click', async () => {
+            const topicInput = document.getElementById('topicInput');
+            const verseText = document.getElementById('verseText');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            if (!topicInput.value.trim()) {
+                verseText.textContent = 'Por favor, digite um tópico.';
+                copyBtn.classList.add('opacity-0');
+                return;
+            }
+
+            try {
+                verseText.textContent = 'Gerando versículo...';
+                copyBtn.classList.add('opacity-0');
+                
+                const verse = await generateBibleVerse(topicInput.value);
+                verseText.textContent = verse;
+                
+                // Mostrar botão de copiar
+                copyBtn.classList.remove('opacity-0');
+            } catch (error) {
+                verseText.textContent = 'Erro ao gerar versículo. Tente novamente.';
+                console.error(error);
+            }
+        });
+
+        // Funcionalidade de copiar
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            const verseText = document.getElementById('verseText');
+            navigator.clipboard.writeText(verseText.textContent).then(() => {
+                alert('Versículo copiado com sucesso!');
+            });
+        });
+
+        // Efeito hover no botão de copiar
+        const verseResult = document.getElementById('verseResult');
+        const copyBtn = document.getElementById('copyBtn');
+        
+        verseResult.addEventListener('mouseenter', () => {
+            copyBtn.classList.remove('opacity-0');
+        });
+        
+        verseResult.addEventListener('mouseleave', () => {
+            if (verseText.textContent === 'Seu versículo aparecerá aqui') {
+                copyBtn.classList.add('opacity-0');
+            }
+        });
+    </script>
+</body>
+</html>
