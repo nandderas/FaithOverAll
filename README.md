@@ -1,5 +1,5 @@
 Este é um projeto criado para facilitar sua busca de versículos bíblicos com base em sua necessidade utilizando a inteligência artificial.
-Você pode colocar temas ou perguntas para o site fazer a busca , e também visto que é uma inteligência artificial que faz a busca você também pode pedir para ela explicar o versículo.
+Você pode colocar temas ou perguntas para o site fazer a busca , você também pode pedir para ela explicar o versículo.
 
 Exemplos de uso
 Tema: Ansiedade
