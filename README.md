@@ -22,9 +22,10 @@ Sobre o site:
 Para o desenvolvimento do site foi utilizado: html, css e javascript.
 Inteligência Artificial: Gemini AI
 Este site foi desenvolvido inteiramente em uma inteligência artificial, apenas tive a ideia do site. ( Não sou um programador. )
+
 ( IA utilizada para programação: https://claude.ai/ )
 
-Licença
+Licença:
 Este projeto é de código aberto e gratuito para uso pessoal.
 
 Ideia de uma inteligência humana , programado por uma artificial , e sempre guiado por Deus.
