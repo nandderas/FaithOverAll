@@ -20,6 +20,7 @@ Versículo:
 Sobre o site:
 
 Inteligência Artificial: Gemini AI
+
 Este site foi desenvolvido inteiramente em uma inteligência artificial, apenas tive a ideia do site. ( Não sou um programador. )
 
 ( IA utilizada para programação: https://claude.ai/ )
