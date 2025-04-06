@@ -19,7 +19,6 @@ Versículo:
 
 Sobre o site:
 
-Para o desenvolvimento do site foi utilizado: html, css e javascript.
 Inteligência Artificial: Gemini AI
 Este site foi desenvolvido inteiramente em uma inteligência artificial, apenas tive a ideia do site. ( Não sou um programador. )
 
